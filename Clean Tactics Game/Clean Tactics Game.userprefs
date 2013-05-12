@@ -1,12 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tile Based Map and Nav\Scripts\Sample\AI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tile Based Map and Nav\Scripts\Sample\GameController.cs">
     <Files>
-      <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\Unit.cs" Line="57" Column="19" />
-      <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\GameController.cs" Line="343" Column="55" />
+      <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\Unit.cs" Line="150" Column="26" />
+      <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\GameController.cs" Line="346" Column="4" />
       <File FileName="Assets\Tile Based Map and Nav\Scripts\TMN\NaviUnit.cs" Line="58" Column="69" />
       <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\SampleWeapon.cs" Line="60" Column="49" />
-      <File FileName="Assets\Tile Based Map and Nav\Scripts\Sample\AI.cs" Line="403" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

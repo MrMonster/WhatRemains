@@ -48,7 +48,6 @@
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\CameraOrbit.cs" />
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\Util.cs" />
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\iTween.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\AI.cs" />
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\GameController.cs" />
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\GameControllerSample6.cs" />
      <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleDungeonDoor.cs" />

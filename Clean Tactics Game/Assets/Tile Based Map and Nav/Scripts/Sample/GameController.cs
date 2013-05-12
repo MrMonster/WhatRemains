@@ -92,7 +92,6 @@ public class GameController : TMNController
 			unit.name = "unit-" + i;
 			units[unit.playerSide-1].Add(unit);
 
-			if (randomMovement) unit.ChooseRandomTileAndMove();
 		}
 	}
 
@@ -345,31 +344,17 @@ public class GameController : TMNController
 		// eventcode 1 = unit finished moving
 		if (eventCode == 1)
 		{
-			Unit u = (unit as Unit);
 
-			if (randomMovement)
-			{
-				// choose a new spot to move to
-				u.ChooseRandomTileAndMove();
+			if (!hideMarkersOnMove && prevNode != null)
+			{	// the markers where not hidden when the unit started moving,
+				// then they should be now as they are invalid now
+				prevNode.ShowNeighbours(((Unit)selectedUnit).maxMoves, false);
 			}
-			else
-			{
-				if (!useTurns)
-				{
-					// units can't use their moves up in this case, so reset after it moved
-					u.currMoves = u.maxMoves;
-				}
 
-				if (!hideMarkersOnMove && prevNode != null)
-				{	// the markers where not hidden when the unit started moving,
-					// then they should be now as they are invalid now
-					prevNode.ShowNeighbours(((Unit)selectedUnit).maxMoves, false);
-				}
-
-				// do a fake click on the unit to "select" it again
-				this.OnNaviUnitClick(unit.gameObject);
-				allowInput = true; // allow input again
-			}
+			// do a fake click on the unit to "select" it again
+			this.OnNaviUnitClick(unit.gameObject);
+			allowInput = true; // allow input again
+			
 		}
 
 		// eventcode 2 = unit done attacking

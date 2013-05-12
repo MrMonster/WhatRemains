@@ -131,13 +131,7 @@ public class Unit : NaviUnit
 
 		return true;
 	}
-
-	public void ChooseRandomTileAndMove()
-	{
-		waitingToChooseMoveNode = true;
-		timer = 0.3f;
-	}
-
+	
 	/// <summary>called by the weapon when it is done doing its thing</summary>
 	private void OnAttackDone(NaviUnit unit, int eventCode)
 	{
@@ -146,7 +140,7 @@ public class Unit : NaviUnit
 		
 		killed = true;
 	}
-
+	
 	protected override void OnMovementDelayed() 
 	{
 		deadlockDetection++;
@@ -154,7 +148,6 @@ public class Unit : NaviUnit
 		{
 			// seems to be deadlocked, try going to somewhere new
 			deadlockDetection = 0;
-			ChooseRandomTileAndMove();
 		}
 	}
 
