@@ -43,12 +43,23 @@ public class GameController : TMNController
 
 	public bool allowInput { get; set; }
 
-	private List<Unit>[] units = {
-		new List<Unit>(),	// player 1's units
-		new List<Unit>()	// player 2's units
+	private List<Unit>[] units = 
+	{
+		new List<Unit>(),	// player 1's units	
+		new List<Unit>()	// AI Units
 	};
+	
 
 	public int currPlayerTurn  { get; set; }		// which player's turn it is, only if useTurns = true;
+	public int currentPlayerIndex = 0;
+	
+	public GameObject[] playerUnits;
+	public TileNode[] playerNodes;
+	
+	public GameObject[] AIUnits;
+	public TileNode[] AINodes;
+	
+
 
 	#endregion
 	// ====================================================================================================================
@@ -62,7 +73,7 @@ public class GameController : TMNController
 		state = State.Init;
 	}
 
-	private void SpawnRandomUnits(int count)
+/*	private void SpawnRandomUnits(int count)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -93,7 +104,39 @@ public class GameController : TMNController
 			units[unit.playerSide-1].Add(unit);
 
 		}
+	}*/
+	
+	private void generatePlayers() 
+	{
+		int count = playerUnits.Length;
+		
+		for (int p = 0; p < count; p++)
+		{
+			Unit playerUnit = playerUnits[p].GetComponent<Unit>();
+			TileNode playerNode = playerNodes[p].GetComponent<TileNode>();
+			
+			Unit player = (Unit)Unit.SpawnUnit(playerUnit.gameObject, map, playerNode);				
+			player.Init(OnUnitEvent);
+			units[p].Add(player);
+		}
 	}
+	
+	private void generateAI() 
+	{
+		int AIcount = AIUnits.Length;
+		
+		for (int a = 0; a < AIcount; a++)
+		{
+			Unit AIUnit = AIUnits[a].GetComponent<Unit>();
+			TileNode AINode = AINodes[a].GetComponent<TileNode>();
+			
+			Unit AI = (Unit)Unit.SpawnUnit(AIUnit.gameObject, map, AINode);				
+			AI.Init(OnUnitEvent);
+			units[a].Add(AI);
+		}
+	}
+
+
 
 	#endregion
 	// ====================================================================================================================
@@ -114,7 +157,9 @@ public class GameController : TMNController
 		else if (state == State.Init)
 		{
 			state = State.Running;
-			SpawnRandomUnits(spawnCount);
+			generatePlayers();
+			generateAI();
+			//SpawnRandomUnits(spawnCount);
 			allowInput = true;
 		}
 	}
@@ -344,7 +389,7 @@ public class GameController : TMNController
 		// eventcode 1 = unit finished moving
 		if (eventCode == 1)
 		{
-
+			Unit u = (unit as Unit);
 			if (!hideMarkersOnMove && prevNode != null)
 			{	// the markers where not hidden when the unit started moving,
 				// then they should be now as they are invalid now
