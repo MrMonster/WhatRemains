@@ -25,16 +25,11 @@ public class Unit : NaviUnit
 	public int currMoves = 0; // how many moves this unit has left
 
 	public bool didAttack { get; set; }
-	public bool killed = false;
-	public GameObject self;
-	public Unit tgt;
+	private bool killed = false;
+	private Unit tgt;
 	
 	private SampleWeapon weapon;
-
-	// helpers during random movement demo
-	private bool waitingToChooseMoveNode = false;
-	private float timer = 0f;
-	private int deadlockDetection = 0;				
+				
 
 	#endregion
 	// ====================================================================================================================
@@ -53,39 +48,8 @@ public class Unit : NaviUnit
 		
 		if(killed == true)
 		{
-			DestroyObject(tgt.self);
+			DestroyObject(tgt.gameObject);
 			killed = false;
-		}
-		if (waitingToChooseMoveNode)
-		{
-			timer -= Time.deltaTime;
-			if (timer <= 0.0f)
-			{
-				waitingToChooseMoveNode = false;
-				int tries = 0;
-				TileNode node = null;
-				while (node == null)
-				{
-					int r = Random.Range(0, mapnav.Length);
-					if (this.CanStandOn(mapnav[r], true))
-					{
-						node = mapnav[r];
-					}
-					tries++;
-					if (tries > 10) break;
-				}
-
-				if (node != null)
-				{
-					this.MoveTo(node);
-				}
-
-				if (!isMoving)
-				{	// try again in a bit
-					waitingToChooseMoveNode = true;
-					timer = 0.5f;
-				}
-			}
 		}
 	}
 
@@ -139,16 +103,6 @@ public class Unit : NaviUnit
 		if (onUnitEvent != null) onUnitEvent(this, 2);
 		
 		killed = true;
-	}
-	
-	protected override void OnMovementDelayed() 
-	{
-		deadlockDetection++;
-		if (deadlockDetection >= 5)
-		{
-			// seems to be deadlocked, try going to somewhere new
-			deadlockDetection = 0;
-		}
 	}
 
 	#endregion

@@ -17,18 +17,15 @@ public class GameController : TMNController
 	public RadiusMarker attackRangeMarker;		// show how far the selected unit can attack at
 
 	public GameObject[] unitFabs;				// unit prefabs
-	public int spawnCount = 8;					// how many units to spawn
-
+	
 	// these are samples of ways you might like to handle the visible markers
 	// please optimise to your needs by removing this and the if() statements
 	public bool hideSelectorOnMove = true;		// hide the selection marker when a unit moves?
 	public bool hideMarkersOnMove = true;		// hide the node markers when a unit moves?
 
-	public bool useTurns = false;				// show example of using limited moves?
+	public bool useTurns = true;				// show example of using limited moves?
 
-	public bool combatOn = false;				// combat is only shown in sample 1, so turn of for other
-
-	public bool randomMovement = false;			// demo with random movement on?
+	public bool combatOn = true;				// combat is only shown in sample 1, so turn of for other
 
 	#endregion
 	// ====================================================================================================================
@@ -43,10 +40,9 @@ public class GameController : TMNController
 
 	public bool allowInput { get; set; }
 
-	private List<Unit>[] units = 
+	public List<Unit>[] units = 
 	{
-		new List<Unit>(),	// player 1's units	
-		new List<Unit>()	// AI Units
+		new List<Unit>()	// Units
 	};
 	
 
@@ -72,68 +68,36 @@ public class GameController : TMNController
 		currPlayerTurn = 0;
 		state = State.Init;
 	}
-
-/*	private void SpawnRandomUnits(int count)
+	
+	private void generateUnits() 
 	{
+		int count = units.Length;
+		
 		for (int i = 0; i < count; i++)
 		{
-			// choose a unit
-			int r = Random.Range(0, unitFabs.Length);
-			Unit unitFab = unitFabs[r].GetComponent<Unit>();
-
-			// find an open spot for the unit on the map
-			int tries = 0;
-			TileNode node = null;
-			while (node == null)
+			int playerCount = playerUnits.Length;
+			
+			for (int p = 0; p < playerCount; p++)
 			{
-				r = Random.Range(0, map.Length);
-				if (unitFab.CanStandOn(map[r], true))
-				{
-					node = map[r];
-				}
-				tries++;
-				if (tries > 10) break;
+				Unit playerUnit = playerUnits[p].GetComponent<Unit>();
+				TileNode playerNode = playerNodes[p].GetComponent<TileNode>();
+				
+				Unit player = (Unit)Unit.SpawnUnit(playerUnit.gameObject, map, playerNode);				
+				player.Init(OnUnitEvent);
+				units[i].Add(player);
 			}
-
-			if (node == null) continue;
+			int AIcount = AIUnits.Length;
 			
-			// spawn the unit
-			Unit unit = (Unit)Unit.SpawnUnit(unitFab.gameObject, map, node);
-			unit.Init(OnUnitEvent);
-			unit.name = "unit-" + i;
-			units[unit.playerSide-1].Add(unit);
-
-		}
-	}*/
-	
-	private void generatePlayers() 
-	{
-		int count = playerUnits.Length;
-		
-		for (int p = 0; p < count; p++)
-		{
-			Unit playerUnit = playerUnits[p].GetComponent<Unit>();
-			TileNode playerNode = playerNodes[p].GetComponent<TileNode>();
-			
-			Unit player = (Unit)Unit.SpawnUnit(playerUnit.gameObject, map, playerNode);				
-			player.Init(OnUnitEvent);
-			units[p].Add(player);
-		}
-	}
-	
-	private void generateAI() 
-	{
-		int AIcount = AIUnits.Length;
-		
-		for (int a = 0; a < AIcount; a++)
-		{
-			Unit AIUnit = AIUnits[a].GetComponent<Unit>();
-			TileNode AINode = AINodes[a].GetComponent<TileNode>();
-			
-			Unit AI = (Unit)Unit.SpawnUnit(AIUnit.gameObject, map, AINode);				
-			AI.Init(OnUnitEvent);
-			units[a].Add(AI);
-		}
+			for (int a = 0; a < AIcount; a++)
+			{
+				Unit AIUnit = AIUnits[a].GetComponent<Unit>();
+				TileNode AINode = AINodes[a].GetComponent<TileNode>();
+				
+				Unit AI = (Unit)Unit.SpawnUnit(AIUnit.gameObject, map, AINode);				
+				AI.Init(OnUnitEvent);
+				units[i].Add(AI);
+			}
+		}		
 	}
 
 
@@ -144,7 +108,7 @@ public class GameController : TMNController
 
 	public void Update()
 	{
-		if (state == State.Running && !randomMovement)
+		if (state == State.Running)
 		{
 			// check if player clicked on tiles/units. You could choose not to call this in certain frames,
 			// for example if your GUI handled the input this frame and you don't want the player 
@@ -157,8 +121,7 @@ public class GameController : TMNController
 		else if (state == State.Init)
 		{
 			state = State.Running;
-			generatePlayers();
-			generateAI();
+			generateUnits();
 			//SpawnRandomUnits(spawnCount);
 			allowInput = true;
 		}
@@ -389,7 +352,6 @@ public class GameController : TMNController
 		// eventcode 1 = unit finished moving
 		if (eventCode == 1)
 		{
-			Unit u = (unit as Unit);
 			if (!hideMarkersOnMove && prevNode != null)
 			{	// the markers where not hidden when the unit started moving,
 				// then they should be now as they are invalid now
