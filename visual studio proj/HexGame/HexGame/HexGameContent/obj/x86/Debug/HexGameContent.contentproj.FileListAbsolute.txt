@@ -1,0 +1,1 @@
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGameContent\obj\x86\Debug\ResolveAssemblyReference.cache

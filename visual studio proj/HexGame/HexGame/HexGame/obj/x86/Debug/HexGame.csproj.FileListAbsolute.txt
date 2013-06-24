@@ -1,0 +1,7 @@
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\bin\x86\Debug\HexGame.exe
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\bin\x86\Debug\HexGame.pdb
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\obj\x86\Debug\HexGame.exe
+c:\users\locke\documents\visual studio 2010\Projects\HexGame\HexGame\HexGame\obj\x86\Debug\HexGame.pdb
+C:\Users\LOCKE\Documents\Visual Studio 2010\Projects\HexGame\HexGame\HexGame\bin\x86\Debug\Content\Content\HEX_Fixed.xnb
